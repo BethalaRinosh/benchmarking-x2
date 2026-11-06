@@ -205,3 +205,12 @@ Append newest entries at the top. Every entry must distinguish **observed facts*
 - **Interpretation:** Local clone is synchronized with the latest GitHub README commit. The `.gitignore` behavior is correct: real `.env` secrets are ignored and `.env.example` remains eligible for tracking. Only `.gitignore` is currently untracked.
 - **Errors/issues:** None.
 - **Next action:** Stage and commit only `.gitignore`, then verify the commit and clean working tree.
+### 2026-11-06 | First local commit blocked by missing Git identity
+
+- **Action:** User staged `.gitignore` with `git add .gitignore` and attempted `git commit -m "chore: add gitignore for benchmark workspace"`.
+- **Observed output:** Commit failed with `Author identity unknown`. Git requested `user.email` and `user.name`, then reported: `fatal: empty ident name (for <rinosh@TopLap-YEEEEEEE.localdomain>) not allowed`.
+- **Observed output:** `git status --short --branch` returned `## main...origin/main` and `A  .gitignore`. The file remains staged; no commit was created.
+- **Observed output:** Latest commit remains `64a0bce (HEAD -> main, origin/main, origin/HEAD) docs: log git sync and ignore rule verification`.
+- **Interpretation:** Git's author identity is not configured in this WSL environment/repository. This is a Git configuration issue, not a problem with `.gitignore`. Configure identity locally in this repository (not globally) to avoid changing settings for other projects. Use a name and email associated with the user's GitHub account; a GitHub noreply email can be used if email privacy is preferred.
+- **Errors/issues:** Commit blocked by missing `user.name` and `user.email`; staged `.gitignore` is safe and remains staged.
+- **Next action:** Configure repository-local Git author name and email, verify them with `git config --local --get user.name` and `git config --local --get user.email`, then retry the same commit.
