@@ -167,3 +167,13 @@ Append newest entries at the top. Every entry must distinguish **observed facts*
 - **Interpretation:** Git, Python, and uv are installed. Docker is not currently accessible from this WSL distro; this does not block Phase 0A static corpus and harness work. Establish the local repository clone before local file work. Do not install Docker or Strix yet.
 - **Errors/issues:** Docker command not found. No local `benchmarking-x2` directory found within `~` to depth 3.
 - **Next action:** Clone the existing GitHub repository into the WSL home directory, then verify its branch, remote, working tree, and README before making local changes.
+### 2026-11-06 | Local repository clone verified
+
+- **Action:** User ran `cd ~`, `git clone https://github.com/BethalaRinosh/benchmarking-x2.git`, `cd benchmarking-x2`, then checked branch/status, remote, and latest commit.
+- **Observed output:** Clone completed successfully. Git reported 9 objects received and deltas resolved.
+- **Observed output:** `git status --short --branch` returned `## main...origin/main`, with no modified/untracked files shown.
+- **Observed output:** Both fetch and push remotes are `https://github.com/BethalaRinosh/benchmarking-x2.git`.
+- **Observed output:** Latest commit is `e0fb051 (HEAD -> main, origin/main, origin/HEAD) docs: log initial WSL environment inventory`.
+- **Interpretation:** Local clone is present at `~/benchmarking-x2`, on `main`, tracking `origin/main`, and clean at the time of the check.
+- **Errors/issues:** None observed during clone or verification.
+- **Next action:** Check local repository secret hygiene (`.gitignore`, tracked environment files, and current working-tree status) before creating benchmark files or adding credentials.
