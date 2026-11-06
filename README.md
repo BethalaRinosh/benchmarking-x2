@@ -157,3 +157,13 @@ Append newest entries at the top. Every entry must distinguish **observed facts*
 - **Decision:** Follow v4 gates. Do not install/run Strix yet. Phase 0A comes first; Phase 0B requires an isolated VM and native Docker.
 - **Next action:** Verify repository secret hygiene, then define the Unsafe policy and start the corpus manifest.
 - **Errors:** None observed in this session so far.
+
+### 2026-11-06 | Initial environment inventory
+
+- **Action:** User ran this read-only inventory from Ubuntu WSL at `/home/rinosh`: `pwd`; `uname -a`; `git --version`; `python3 --version`; `uv --version`; `docker --version`; `find ~ -maxdepth 3 -type d -name "benchmarking-x2" -print`.
+- **Observed output:** Working directory `/home/rinosh`. WSL kernel `6.18.33.2-microsoft-standard-WSL2`, x86_64. Git `2.53.0`. Python `3.14.4`. uv `0.13.7`.
+- **Observed output:** Docker is unavailable in this WSL distro. Exact message: `The command 'docker' could not be found in this WSL 2 distro.` WSL suggested enabling Docker Desktop integration.
+- **Observed output:** `find ~ -maxdepth 3 -type d -name "benchmarking-x2" -print` returned no paths. The repository was not found within the searched portion of the home directory.
+- **Interpretation:** Git, Python, and uv are installed. Docker is not currently accessible from this WSL distro; this does not block Phase 0A static corpus and harness work. Establish the local repository clone before local file work. Do not install Docker or Strix yet.
+- **Errors/issues:** Docker command not found. No local `benchmarking-x2` directory found within `~` to depth 3.
+- **Next action:** Clone the existing GitHub repository into the WSL home directory, then verify its branch, remote, working tree, and README before making local changes.
