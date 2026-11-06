@@ -177,3 +177,13 @@ Append newest entries at the top. Every entry must distinguish **observed facts*
 - **Interpretation:** Local clone is present at `~/benchmarking-x2`, on `main`, tracking `origin/main`, and clean at the time of the check.
 - **Errors/issues:** None observed during clone or verification.
 - **Next action:** Check local repository secret hygiene (`.gitignore`, tracked environment files, and current working-tree status) before creating benchmark files or adding credentials.
+### 2026-11-06 | Repository secret-hygiene check
+
+- **Action:** User checked whether `.gitignore` exists, searched tracked files for `.env` names, ran `git check-ignore -v .env .env.local .env.example`, and checked `git status --short`.
+- **Observed output:** No `.gitignore` exists.
+- **Observed output:** `git ls-files | grep -E '(^|/)\.env($|\.)'` returned no matches; no tracked `.env` files were found.
+- **Observed output:** `git check-ignore` printed no matches. With no `.gitignore`, the environment-file ignore rules are not configured. `.env.example` should remain trackable as a template, not be ignored.
+- **Observed output:** `git status --short` printed nothing; the working tree was clean.
+- **Interpretation:** No environment files are currently tracked, but the repository has no protection against accidentally adding local secrets. Add a minimal `.gitignore` before creating any credentials or local environment files.
+- **Errors/issues:** Missing `.gitignore`; no ignore rules matched `.env`, `.env.local`, or `.env.example`.
+- **Next action:** Create `.gitignore` that excludes real environment files and common local artifacts while allowing `.env.example`; then verify with `git check-ignore` and `git status`.
