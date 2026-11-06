@@ -196,3 +196,12 @@ Append newest entries at the top. Every entry must distinguish **observed facts*
 - **Interpretation:** The real secret filenames `.env` and `.env.local` are covered by ignore patterns. The `.env.example` exception is present; verify its effective behavior using `git check-ignore -v --no-index` or a temporary empty `.env.example` file before relying on it. Do not add real credentials.
 - **Errors/issues:** None in the command output. Verification nuance: `git check-ignore` can report a negation rule with verbose output; confirm effective non-ignored status explicitly.
 - **Next action:** Sync the local clone with the README commits made directly on GitHub, then verify `.env.example` is not ignored and commit the `.gitignore` locally.
+### 2026-11-06 | GitHub sync and effective ignore-rule verification
+
+- **Action:** User ran `git pull --ff-only`, checked the exit status of `git check-ignore -q .env.example` and `.env`, then checked branch/status.
+- **Observed output:** Fast-forward pull succeeded. Local `main` advanced from `e0fb051` to `64a0bce`; README updated with the preceding environment and `.gitignore` action-log entries.
+- **Observed output:** `.env.example` check returned exit code `1`, meaning it is not ignored. `.env` check returned exit code `0`, meaning it is ignored.
+- **Observed output:** `git status --short --branch` returned `## main...origin/main` and `?? .gitignore`.
+- **Interpretation:** Local clone is synchronized with the latest GitHub README commit. The `.gitignore` behavior is correct: real `.env` secrets are ignored and `.env.example` remains eligible for tracking. Only `.gitignore` is currently untracked.
+- **Errors/issues:** None.
+- **Next action:** Stage and commit only `.gitignore`, then verify the commit and clean working tree.
