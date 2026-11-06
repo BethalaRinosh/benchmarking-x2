@@ -187,3 +187,12 @@ Append newest entries at the top. Every entry must distinguish **observed facts*
 - **Interpretation:** No environment files are currently tracked, but the repository has no protection against accidentally adding local secrets. Add a minimal `.gitignore` before creating any credentials or local environment files.
 - **Errors/issues:** Missing `.gitignore`; no ignore rules matched `.env`, `.env.local`, or `.env.example`.
 - **Next action:** Create `.gitignore` that excludes real environment files and common local artifacts while allowing `.env.example`; then verify with `git check-ignore` and `git status`.
+### 2026-11-06 | `.gitignore` created and verified
+
+- **Action:** User created `.gitignore` with rules for environment secrets, Python caches/virtual environments, test output, local benchmark data/results/logs, and editor/OS files. The exception `!.env.example` keeps the example template trackable.
+- **Observed output:** `git check-ignore -v .env .env.local` matched `.gitignore:2:.env` and `.gitignore:3:.env.*` respectively.
+- **Observed output:** `git check-ignore -v .env.example` displayed the negation rule `.gitignore:4:!.env.example`; Git's check-ignore output shows the matching negation rule, so this output alone is not proof that the file is ignored. The intended rule is to allow `.env.example`.
+- **Observed output:** `git status --short` returned `?? .gitignore`; only the new `.gitignore` is untracked.
+- **Interpretation:** The real secret filenames `.env` and `.env.local` are covered by ignore patterns. The `.env.example` exception is present; verify its effective behavior using `git check-ignore -v --no-index` or a temporary empty `.env.example` file before relying on it. Do not add real credentials.
+- **Errors/issues:** None in the command output. Verification nuance: `git check-ignore` can report a negation rule with verbose output; confirm effective non-ignored status explicitly.
+- **Next action:** Sync the local clone with the README commits made directly on GitHub, then verify `.env.example` is not ignored and commit the `.gitignore` locally.
